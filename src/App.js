@@ -13,6 +13,8 @@ const App = () => {
   const [newTodo, setNewTodo] = useState("");
   return (
     <div className="App">
+      
+      <div className="task__container">
       {
         tasks.map((task, i) => 
           <div className="task" onClick={() => {
@@ -28,7 +30,10 @@ const App = () => {
           </div>
         )
       }
-      <input type="text" value={newTodo} onChange={(e) => setNewTodo(e.target.value)}/>
+      </div>
+      <label> Add 
+        <input type="text" value={newTodo} onChange={(e) => setNewTodo(e.target.value)}/>
+      </label>
       <button type="button" onClick={() => {
         setTasks((prev => [...prev, {
           id: prev.length + 1,
