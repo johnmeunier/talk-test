@@ -34,7 +34,7 @@ const thenMyTodolistHasTheItems = (then) => {
     const items = screen.getAllByRole("listitem");
 
     expectedItems.forEach((item, index) => {
-      expect(items[index]).toContain(item);
+      expect(items[index]).toHaveTextContent(item);
     });
   });
 };
