@@ -20,16 +20,18 @@ const App = () => {
     setFilterStatus(e.target.value)
   }
 
+  const filter = ({tasks, filterStatus}) => {
+    if(filterStatus === "all") return tasks;
+    if(filterStatus === "completed") return tasks.filter(({completed}) => completed);
+    if(filterStatus === "active") return tasks.filter(({completed}) => !completed);
+  }
+
   useEffect(() => {
-    setFilteredTasks(() => {
-      if(filterStatus === "all") return tasks;
-      if(filterStatus === "completed") return tasks.filter(({completed}) => completed);
-      if(filterStatus === "active") return tasks.filter(({completed}) => !completed);
-    })
+    setFilteredTasks(() => filter({tasks, filterStatus}));
   }, [filterStatus, tasks]);
 
   useEffect(() => {
-    setFilteredTasks(tasks);
+    setFilteredTasks(filter({tasks, filterStatus}));
   }, [tasks])
   
   return (
