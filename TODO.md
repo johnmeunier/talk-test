@@ -1,0 +1,5 @@
+- [] Supprimer une tache
+- [] Filtre par label
+- [] Sort par status
+- [] Test unitaire de la méthode filter
+- [] Design
