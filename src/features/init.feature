@@ -1,5 +1,9 @@
-Feature: Init
+Feature: Todo list application
 
-  Scenario: Afficher Learn React sur la page d'accueil
-    Given J'accède à la page d'accueil
-    Then La page comporte le texte Learn React
+  Scenario: Add an item to the list
+    Given I am on the todo app
+    When I write 'Groceries' in the new item
+    And I add my new item
+    Then My Todo-list has the items :
+      | items     |
+      | Groceries |
