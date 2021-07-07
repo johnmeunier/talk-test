@@ -2,13 +2,7 @@ import { useState, useEffect } from 'react';
 import './App.css';
 
 const App = () => {
-  const [tasks, setTasks] = useState([
-    {
-      id : 0,
-      label: "Test",
-      completed : false
-    }
-  ]);
+  const [tasks, setTasks] = useState([]);
 
   const [filteredTasks, setFilteredTasks] = useState(tasks);
 
@@ -40,7 +34,7 @@ const App = () => {
         <div className="filter">
           {
             ["completed", "active", "all"].map(value => (
-              <label>
+              <label key={value}>
               {value}
               <input type="radio" name="status" value={value} checked={value === filterStatus} onChange={handleFilterStatus}/> 
             </label>
@@ -49,9 +43,9 @@ const App = () => {
         </div>
       </div>
       <div className="task__container">
-      {
+        <ul>{
         filteredTasks.map((task, i) => 
-          <div className="task" onClick={() => {
+          <li className="task" key={task.id} onClick={() => {
             setTasks(prev => {
               const newTasks = [...JSON.parse(JSON.stringify(prev))];
               console.log(newTasks);
@@ -61,9 +55,10 @@ const App = () => {
           }}>
             {task.completed ? "X" : "O"}
             {task.label}
-          </div>
+          </li>
         )
-      }
+      }</ul>
+      
       </div>
       <label> Add 
         <input type="text" value={newTodo} onChange={(e) => setNewTodo(e.target.value)}/>
