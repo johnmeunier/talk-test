@@ -14,8 +14,15 @@ const App = () => {
   return (
     <div className="App">
       {
-        tasks.map(task => 
-          <div className="task">
+        tasks.map((task, i) => 
+          <div className="task" onClick={() => {
+            setTasks(prev => {
+              const newTasks = [...JSON.parse(JSON.stringify(prev))];
+              console.log(newTasks);
+              newTasks[i].completed = !newTasks[i].completed;
+              return newTasks
+            })
+          }}>
             {task.completed ? "X" : "O"}
             {task.label}
           </div>
