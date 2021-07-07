@@ -23,8 +23,8 @@ const App = () => {
   useEffect(() => {
     setFilteredTasks(() => {
       if(filterStatus === "all") return tasks;
-      if(filterStatus === "onlyCompleted") return tasks.filter(({completed}) => completed);
-      if(filterStatus === "onlyActive") return tasks.filter(({completed}) => !completed);
+      if(filterStatus === "completed") return tasks.filter(({completed}) => completed);
+      if(filterStatus === "active") return tasks.filter(({completed}) => !completed);
     })
   }, [filterStatus, tasks]);
 
@@ -36,18 +36,14 @@ const App = () => {
     <div className="App">
       <div className="filter__container">
         <div className="filter">
-          <label>
-            Completed
-            <input type="radio" name="status" value="onlyCompleted" onChange={handleFilterStatus}/> 
-          </label>
-          <label>
-            Active
-            <input type="radio" name="status" value="onlyActive" onChange={handleFilterStatus}/> 
-          </label>
-          <label>
-            All
-            <input type="radio" name="status" value="all" onChange={handleFilterStatus}/> 
-          </label>
+          {
+            ["completed", "active", "all"].map(value => (
+              <label>
+              {value}
+              <input type="radio" name="status" value={value} checked={value === filterStatus} onChange={handleFilterStatus}/> 
+            </label>
+            ))
+          }
         </div>
       </div>
       <div className="task__container">
