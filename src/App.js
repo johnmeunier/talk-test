@@ -1,23 +1,35 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
 
-function App() {
+const App = () => {
+  const [tasks, setTasks] = useState([
+    {
+      id : 0,
+      label: "Test",
+      completed : false
+    }
+  ]);
+  
+  const [newTodo, setNewTodo] = useState("");
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {
+        tasks.map(task => 
+          <div className="task">
+            {task.completed ? "X" : "O"}
+            {task.label}
+          </div>
+        )
+      }
+      <input type="text" value={newTodo} onChange={(e) => setNewTodo(e.target.value)}/>
+      <button type="button" onClick={() => {
+        setTasks((prev => [...prev, {
+          id: prev.length + 1,
+          label: newTodo,
+          completed: false
+        }]));
+        setNewTodo(() => "");
+      }}>Add</button>
     </div>
   );
 }
