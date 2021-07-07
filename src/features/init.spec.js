@@ -14,25 +14,47 @@ const givenIAmOnTheTodoApp = (given) => {
   });
 };
 
+const whenIWriteInTheNewItem = (when) => {
+  when(/I write '(.*)' in the new item/, (text) => {
+    const input = screen.getByLabelText(/Add/i);
+
+    userEvent.type(input, text);
+  });
+};
+const whenIAddMyNewItem = (when) => {
+  when(/I add my new item/, () => {
+    const button = screen.getByRole("button", { name: /Add/ });
+    userEvent.click(button);
+  });
+};
+
+const thenMyTodolistHasTheItems = (then) => {
+  then(/My Todo-list has the items :/, (table) => {
+    const expectedItems = table.map((r) => r.items);
+    const items = screen.getAllByRole("listitem");
+
+    expectedItems.forEach((item, index) => {
+      expect(items[index]).toContain(item);
+    });
+  });
+};
+
 defineFeature(feature, (test) => {
-  test("Add an item to the list", ({ given, when, and, then }) => {
+  test("Add an item to an empty list", ({ given, when, and, then }) => {
     givenIAmOnTheTodoApp(given);
-    when(/I write '(.*)' in the new item/, (text) => {
-      const input = screen.getByLabelText(/Add/i);
+    whenIWriteInTheNewItem(when);
+    whenIAddMyNewItem(and);
+    thenMyTodolistHasTheItems(then);
+  });
 
-      userEvent.type(input, text);
-    });
-    and(/I add my new item/, () => {
-      const button = screen.getByRole("button", { name: /Add/ });
-      userEvent.click(button);
-    });
-    then(/My Todo-list has the items :/, (table) => {
-      const expectedItems = table.map((r) => r.items);
-      const items = screen.getAllByRole("listitem");
-
-      expectedItems.forEach((item, index) => {
-        expect(items[index]).toContain(item);
-      });
-    });
+  test("Add multiple items to the list", ({ given, when, and, then }) => {
+    givenIAmOnTheTodoApp(given);
+    whenIWriteInTheNewItem(when);
+    whenIAddMyNewItem(and);
+    whenIWriteInTheNewItem(when);
+    whenIAddMyNewItem(and);
+    whenIWriteInTheNewItem(when);
+    whenIAddMyNewItem(and);
+    thenMyTodolistHasTheItems(then);
   });
 });
