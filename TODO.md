@@ -3,3 +3,5 @@
 - [] Sort par status
 - [] Test unitaire de la méthode filter
 - [] Design
+- [] Fausse page auth
+- [] Test Cypress
