@@ -45,3 +45,50 @@ Feature: Todo list application
     Then The item 'Groceries' is active
     And The item 'Pick-up the girls from school' is active
     But The item 'Kill some bugs' is completed
+
+  Scenario: Filter completed only shows completed tasks
+    Given I am on the todo app
+    And I have the following items
+      | task             | status    |
+      | task completed 1 | completed |
+      | task active 1    | active    |
+      | task active 2    | active    |
+      | task completed 2 | completed |
+    When I select the filter 'completed'
+    Then My Todo-list has the items :
+      | items            |
+      | task completed 1 |
+      | task completed 2 |
+
+
+  Scenario: Filter active only shows active tasks
+    Given I am on the todo app
+    And I have the following items
+      | task             | status    |
+      | task completed 1 | completed |
+      | task active 1    | active    |
+      | task active 2    | active    |
+      | task completed 2 | completed |
+    When I select the filter 'active'
+    Then My Todo-list has the items :
+      | items            |
+      | task completed 1 |
+      | task completed 2 |
+
+  Scenario: Toggle twice then filter all shows all tasks
+    Given I am on the todo app
+    And I have the following items
+      | task             | status    |
+      | task completed 1 | completed |
+      | task active 1    | active    |
+      | task active 2    | active    |
+      | task completed 2 | completed |
+    When I select the filter 'active'
+    Then My Todo-list has the items :
+      | items            |
+      | task completed 1 | completed |
+      | task active 1    | active |
+      | task active 2    | active |
+      | task completed 2 | completed |
+
+
