@@ -1,5 +1,5 @@
 import { defineFeature, loadFeature } from "jest-cucumber";
-import { render, screen } from "@testing-library/react";
+import { getByRole, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import App from "../App";
@@ -23,19 +23,60 @@ const whenIWriteInTheNewItem = (when) => {
 };
 const whenIAddMyNewItem = (when) => {
   when(/I add my new item/, () => {
-    const button = screen.getByRole("button", { name: /Add/ });
+    const button = screen.getByRole("button", { name: /Add/i });
     userEvent.click(button);
   });
 };
 
+const whenIAddTheItem = (when) => {
+  when(/I add the item '(.*)/, (text) => {
+    const input = screen.getByLabelText(/Add/i);
+    const button = screen.getByRole("button", { name: /Add/i });
+
+    userEvent.type(input, text);
+    userEvent.click(button);
+  });
+};
+
+const whenIClickOnTheItem = (when) => {
+  when(/I click on the item '(.*)'/, async (itemName) => {
+    const item = await waitFor(() =>
+      screen
+        .getAllByRole("listitem")
+        .find((listitem) => listitem.textContent.includes(itemName))
+    );
+
+    userEvent.click(item);
+  });
+};
+
 const thenMyTodolistHasTheItems = (then) => {
-  then(/My Todo-list has the items :/, (table) => {
+  then(/My Todo-list has the items :/, async (table) => {
     const expectedItems = table.map((r) => r.items);
+    await waitFor(() =>
+      expect(
+        screen.getAllByRole("listitem")[expectedItems.length - 1]
+      ).toBeInTheDocument()
+    );
     const items = screen.getAllByRole("listitem");
 
     expectedItems.forEach((item, index) => {
       expect(items[index]).toHaveTextContent(item);
     });
+  });
+};
+
+const thenTheItemIs = (then) => {
+  then(/The item '(.*)' is (active|completed)/, async (itemName, status) => {
+    const item = await waitFor(() =>
+      screen
+        .getAllByRole("listitem")
+        .find((listitem) => listitem.textContent.includes(itemName))
+    );
+
+    expect(
+      getByRole(item, "img", { name: new RegExp(status, "i"), exact: false })
+    ).toBeInTheDocument();
   });
 };
 
@@ -56,5 +97,32 @@ defineFeature(feature, (test) => {
     whenIWriteInTheNewItem(when);
     whenIAddMyNewItem(and);
     thenMyTodolistHasTheItems(then);
+  });
+
+  test("Default status of an item is active", ({ given, when, and, then }) => {
+    givenIAmOnTheTodoApp(given);
+    whenIWriteInTheNewItem(when);
+    whenIAddMyNewItem(and);
+    thenTheItemIs(then);
+  });
+
+  test("Toggle status of an item", ({ given, when, and, then }) => {
+    givenIAmOnTheTodoApp(given);
+    whenIAddTheItem(and);
+    whenIClickOnTheItem(when);
+    thenTheItemIs(then);
+  });
+
+  test("Toggle a single item among many", ({ given, when, and, then }) => {
+    givenIAmOnTheTodoApp(given);
+    whenIAddTheItem(and);
+    whenIAddTheItem(and);
+    whenIAddTheItem(and);
+    whenIClickOnTheItem(when);
+    whenIClickOnTheItem(when);
+    whenIClickOnTheItem(when);
+    thenTheItemIs(then);
+    thenTheItemIs(then);
+    thenTheItemIs(then);
   });
 });

@@ -21,3 +21,27 @@ Feature: Todo list application
       | Groceries                     |
       | Pick-up the girls from school |
       | Kill some bugs                |
+
+  Scenario: Default status of an item is active
+    Given I am on the todo app
+    When I write 'Groceries' in the new item
+    And I add my new item
+    Then The item 'Groceries' is active
+
+  Scenario: Toggle status of an item
+    Given I am on the todo app
+    When I add the item 'Groceries'
+    And I click on the item 'Groceries'
+    Then The item 'Groceries' is completed
+
+  Scenario: Toggle a single item among many
+    Given I am on the todo app
+    When I add the item 'Groceries'
+    And I add the item 'Pick-up the girls from school'
+    And I add the item 'Kill some bugs'
+    And I click on the item 'Pick-up the girls from school'
+    And I click on the item 'Pick-up the girls from school'
+    And I click on the item 'Kill some bugs'
+    Then The item 'Groceries' is active
+    And The item 'Pick-up the girls from school' is active
+    But The item 'Kill some bugs' is completed

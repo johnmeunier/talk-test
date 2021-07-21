@@ -36,3 +36,21 @@
     transform: rotate(360deg);
   }
 }
+
+.status-icon svg {
+  width: 1em;
+}
+
+.status-icon .completed-check {
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 80px;
+  stroke-dashoffset: 80px;
+  transition: all 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.status-icon--completed .completed-check {
+  stroke-dashoffset: 0;
+}
