@@ -1,0 +1,314 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App old way container it should render without crashing 1`] = `
+<div
+  className="App"
+>
+  <div
+    className="filter__container"
+  >
+    <div
+      className="filter"
+    >
+      <label>
+        completed
+        <input
+          checked={false}
+          name="status"
+          onChange={[Function]}
+          type="radio"
+          value="completed"
+        />
+      </label>
+      <label>
+        active
+        <input
+          checked={false}
+          name="status"
+          onChange={[Function]}
+          type="radio"
+          value="active"
+        />
+      </label>
+      <label>
+        all
+        <input
+          checked={true}
+          name="status"
+          onChange={[Function]}
+          type="radio"
+          value="all"
+        />
+      </label>
+    </div>
+  </div>
+  <div
+    className="task__container"
+  >
+    <ul />
+  </div>
+  <label>
+    Add
+    <input
+      onChange={[Function]}
+      type="text"
+      value=""
+    />
+  </label>
+  <button
+    onClick={[Function]}
+    type="button"
+  >
+    Add
+  </button>
+</div>
+`;
+
+exports[`App old way view component initial state 1`] = `
+<div
+  className="App"
+>
+  <div
+    className="filter__container"
+  >
+    <div
+      className="filter"
+    >
+      <label>
+        completed
+        <input
+          checked={false}
+          name="status"
+          onChange={[MockFunction]}
+          type="radio"
+          value="completed"
+        />
+      </label>
+      <label>
+        active
+        <input
+          checked={false}
+          name="status"
+          onChange={[MockFunction]}
+          type="radio"
+          value="active"
+        />
+      </label>
+      <label>
+        all
+        <input
+          checked={true}
+          name="status"
+          onChange={[MockFunction]}
+          type="radio"
+          value="all"
+        />
+      </label>
+    </div>
+  </div>
+  <div
+    className="task__container"
+  >
+    <ul />
+  </div>
+  <label>
+    Add
+    <input
+      onChange={[Function]}
+      type="text"
+      value=""
+    />
+  </label>
+  <button
+    onClick={[Function]}
+    type="button"
+  >
+    Add
+  </button>
+</div>
+`;
+
+exports[`App old way view component with new todo 1`] = `
+<div
+  className="App"
+>
+  <div
+    className="filter__container"
+  >
+    <div
+      className="filter"
+    >
+      <label>
+        completed
+        <input
+          checked={false}
+          name="status"
+          onChange={[MockFunction]}
+          type="radio"
+          value="completed"
+        />
+      </label>
+      <label>
+        active
+        <input
+          checked={false}
+          name="status"
+          onChange={[MockFunction]}
+          type="radio"
+          value="active"
+        />
+      </label>
+      <label>
+        all
+        <input
+          checked={true}
+          name="status"
+          onChange={[MockFunction]}
+          type="radio"
+          value="all"
+        />
+      </label>
+    </div>
+  </div>
+  <div
+    className="task__container"
+  >
+    <ul />
+  </div>
+  <label>
+    Add
+    <input
+      onChange={[Function]}
+      type="text"
+      value="new task"
+    />
+  </label>
+  <button
+    onClick={[Function]}
+    type="button"
+  >
+    Add
+  </button>
+</div>
+`;
+
+exports[`App old way view component with tasks 1`] = `
+<div
+  className="App"
+>
+  <div
+    className="filter__container"
+  >
+    <div
+      className="filter"
+    >
+      <label>
+        completed
+        <input
+          checked={false}
+          name="status"
+          onChange={[MockFunction]}
+          type="radio"
+          value="completed"
+        />
+      </label>
+      <label>
+        active
+        <input
+          checked={false}
+          name="status"
+          onChange={[MockFunction]}
+          type="radio"
+          value="active"
+        />
+      </label>
+      <label>
+        all
+        <input
+          checked={true}
+          name="status"
+          onChange={[MockFunction]}
+          type="radio"
+          value="all"
+        />
+      </label>
+    </div>
+  </div>
+  <div
+    className="task__container"
+  >
+    <ul>
+      <li
+        className="task"
+        onClick={[Function]}
+      >
+        first task
+         
+        <span
+          className="status-icon "
+        >
+          <svg
+            role="img"
+            viewBox="0 0 96 96"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title>
+              Active
+            </title>
+            <path
+              d="M1 1v94h94V1H1zM91.1 91.1H4.9V4.9h86.1V91.1z"
+            />
+            <path
+              className="completed-check"
+              d="m 22.939024,46.886041 18.480655,18.0492 31.424305,-33.078215 v 0"
+              fill="none"
+            />
+          </svg>
+        </span>
+      </li>
+      <li
+        className="task"
+        onClick={[Function]}
+      >
+        first task
+         
+        <span
+          className="status-icon status-icon--completed"
+        >
+          <svg
+            role="img"
+            viewBox="0 0 96 96"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title>
+              Completed
+            </title>
+            <path
+              d="M1 1v94h94V1H1zM91.1 91.1H4.9V4.9h86.1V91.1z"
+            />
+            <path
+              className="completed-check"
+              d="m 22.939024,46.886041 18.480655,18.0492 31.424305,-33.078215 v 0"
+              fill="none"
+            />
+          </svg>
+        </span>
+      </li>
+    </ul>
+  </div>
+  <label>
+    Add
+    <input
+      onChange={[Function]}
+      type="text"
+      value=""
+    />
+  </label>
+  <button
+    onClick={[Function]}
+    type="button"
+  >
+    Add
+  </button>
+</div>
+`;

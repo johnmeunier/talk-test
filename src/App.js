@@ -26,10 +26,6 @@ const App = () => {
     setFilteredTasks(() => filter({ tasks, filterStatus }));
   }, [filterStatus, tasks]);
 
-  useEffect(() => {
-    setFilteredTasks(filter({ tasks, filterStatus }));
-  }, [tasks]);
-
   return (
     <div className="App">
       <div className="filter__container">
@@ -88,7 +84,6 @@ const App = () => {
         </ul>
       </div>
       <label>
-        {" "}
         Add
         <input
           type="text"
