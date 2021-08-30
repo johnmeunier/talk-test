@@ -57,13 +57,12 @@ const App = () => {
               onClick={() => {
                 setTasks((prev) => {
                   const newTasks = [...JSON.parse(JSON.stringify(prev))];
-                  console.log(newTasks);
                   newTasks[i].completed = !newTasks[i].completed;
                   return newTasks;
                 });
               }}
             >
-              {task.label}
+              {task.label}{" "}
               <span
                 className={
                   "status-icon " +

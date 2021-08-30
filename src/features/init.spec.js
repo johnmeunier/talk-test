@@ -30,23 +30,13 @@ const whenIAddMyNewItem = (when) => {
 
 const whenIAddTheItem = (when) => {
   when(/I add the item '(.*)/, (text) => {
-    const input = screen.getByLabelText(/Add/i);
-    const button = screen.getByRole("button", { name: /Add/i });
-
-    userEvent.type(input, text);
-    userEvent.click(button);
+    addItem(text);
   });
 };
 
 const whenIClickOnTheItem = (when) => {
   when(/I click on the item '(.*)'/, async (itemName) => {
-    const item = await waitFor(() =>
-      screen
-        .getAllByRole("listitem")
-        .find((listitem) => listitem.textContent.includes(itemName))
-    );
-
-    userEvent.click(item);
+    await clickItem(itemName);
   });
 };
 
@@ -125,4 +115,106 @@ defineFeature(feature, (test) => {
     thenTheItemIs(then);
     thenTheItemIs(then);
   });
+
+  test("Filter completed only shows completed tasks", ({
+    given,
+    when,
+    and,
+    then,
+  }) => {
+    givenIAmOnTheTodoApp(given);
+    and(/I have the following tasks/, async (table) => {
+      for (const { task, status } of table) {
+        addItem(task);
+        if (status === "completed") {
+          await clickItem(task);
+        }
+      }
+    });
+    when(/I select the filter '(.*)'/, (filter) => {
+      userEvent.click(
+        screen.getByRole("radio", { name: filter, exact: false })
+      );
+    });
+    thenMyTodolistHasTheItems(then);
+  });
+  test("Filter active only shows active tasks", ({
+    given,
+    when,
+    and,
+    then,
+  }) => {
+    givenIAmOnTheTodoApp(given);
+    and(/I have the following tasks/, async (table) => {
+      for (const { task, status } of table) {
+        addItem(task);
+        if (status === "completed") {
+          await clickItem(task);
+        }
+      }
+    });
+    when(/I select the filter '(.*)'/, (filter) => {
+      userEvent.click(
+        screen.getByRole("radio", { name: filter, exact: false })
+      );
+    });
+    thenMyTodolistHasTheItems(then);
+  });
+
+  test("Toggle twice then filter all shows all tasks", ({
+    given,
+    when,
+    and,
+    then,
+  }) => {
+    givenIAmOnTheTodoApp(given);
+    and(/I have the following tasks/, async (table) => {
+      for (const { task, status } of table) {
+        addItem(task);
+        if (status === "completed") {
+          await clickItem(task);
+        }
+      }
+    });
+    when(/I select the filter '(.*)'/, (filter) => {
+      userEvent.click(
+        screen.getByRole("radio", { name: filter, exact: false })
+      );
+    });
+    when(/I select the filter '(.*)'/, (filter) => {
+      userEvent.click(
+        screen.getByRole("radio", { name: filter, exact: false })
+      );
+    });
+
+    when(/I select the filter '(.*)'/, (filter) => {
+      userEvent.click(
+        screen.getByRole("radio", { name: filter, exact: false })
+      );
+    });
+
+    thenMyTodolistHasTheItems(then);
+  });
 });
+
+async function clickItem(itemName) {
+  await waitFor(() =>
+    screen
+      .getAllByRole("listitem")
+      .find((listitem) => listitem.textContent.includes(itemName))
+  );
+
+  userEvent.click(
+    screen
+      .getAllByRole("listitem")
+      .find((listitem) => listitem.textContent.includes(itemName))
+  );
+}
+
+function addItem(text) {
+  const input = screen.getByLabelText(/Add/i);
+  const button = screen.getByRole("button", { name: /Add/i });
+
+  userEvent.type(input, text);
+  userEvent.click(button);
+}

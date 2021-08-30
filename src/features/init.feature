@@ -48,7 +48,7 @@ Feature: Todo list application
 
   Scenario: Filter completed only shows completed tasks
     Given I am on the todo app
-    And I have the following items
+    And I have the following tasks
       | task             | status    |
       | task completed 1 | completed |
       | task active 1    | active    |
@@ -63,7 +63,7 @@ Feature: Todo list application
 
   Scenario: Filter active only shows active tasks
     Given I am on the todo app
-    And I have the following items
+    And I have the following tasks
       | task             | status    |
       | task completed 1 | completed |
       | task active 1    | active    |
@@ -71,24 +71,26 @@ Feature: Todo list application
       | task completed 2 | completed |
     When I select the filter 'active'
     Then My Todo-list has the items :
-      | items            |
-      | task completed 1 |
-      | task completed 2 |
+      | items         |
+      | task active 1 |
+      | task active 2 |
 
   Scenario: Toggle twice then filter all shows all tasks
     Given I am on the todo app
-    And I have the following items
+    And I have the following tasks
       | task             | status    |
       | task completed 1 | completed |
       | task active 1    | active    |
       | task active 2    | active    |
       | task completed 2 | completed |
     When I select the filter 'active'
+    And I select the filter 'completed'
+    And I select the filter 'all'
     Then My Todo-list has the items :
-      | items            |
+      | items            | status    |
       | task completed 1 | completed |
-      | task active 1    | active |
-      | task active 2    | active |
+      | task active 1    | active    |
+      | task active 2    | active    |
       | task completed 2 | completed |
 
 
