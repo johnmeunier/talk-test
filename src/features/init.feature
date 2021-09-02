@@ -93,4 +93,20 @@ Feature: Todo list application
       | task active 2    | active    |
       | task completed 2 | completed |
 
+  @bug
+  Scenario: Status change when filtered
+    Given I am on the todo app
+    And I have the following tasks
+      | task             | status    |
+      | task completed 1 | completed |
+      | task active 1    | active    |
+      | task active 2    | active    |
+      | task completed 2 | completed |
+    When I select the filter 'active'
+    And I click on the item 'task active 1'
+    And I select the filter 'all'
+    Then The item 'task active 1' is completed
+
+
+
 

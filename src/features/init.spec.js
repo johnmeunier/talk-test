@@ -191,4 +191,13 @@ defineFeature(feature, (test) => {
     whenISelectTheFilter(when);
     thenMyTodolistHasTheItems(then);
   });
+
+  test("Status change when filtered", ({ given, when, then, and }) => {
+    givenIAmOnTheTodoApp(given);
+    givenIHaveTheFollowingTasks(and);
+    whenISelectTheFilter(when);
+    whenIClickOnTheItem(when);
+    whenISelectTheFilter(when);
+    thenTheItemIs(then);
+  });
 });
