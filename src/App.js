@@ -3,45 +3,70 @@ import "./App.css";
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
-
   const [filteredTasks, setFilteredTasks] = useState(tasks);
-
   const [newTodo, setNewTodo] = useState("");
-
   const [filterStatus, setFilterStatus] = useState("all");
+  const [filterLabel, setFilterLabel] = useState("");
+  const [sortStatus, setSortStatus] = useState("");
 
-  const handleFilterStatus = (e) => {
-    setFilterStatus(e.target.value);
+  const filter = ({ tasks, filterStatus, filterLabel }) => {
+    let filteredTasks = [...tasks];
+    if (filterStatus === "completed") filteredTasks = filteredTasks.filter(({ completed }) => completed);
+    if (filterStatus === "active") filteredTasks = filteredTasks.filter(({ completed }) => !completed);
+    if (filterLabel !== "") {
+      filteredTasks = filteredTasks.filter(({ label }) => label.toLowerCase().includes(filterLabel.toLowerCase()));
+    }
+    return filteredTasks;
   };
 
-  const filter = ({ tasks, filterStatus }) => {
-    if (filterStatus === "all") return tasks;
-    if (filterStatus === "completed")
-      return tasks.filter(({ completed }) => completed);
-    if (filterStatus === "active")
-      return tasks.filter(({ completed }) => !completed);
+  const sort = ({ filteredTasks, sortStatus }) => {
+    let sortedTasks = [...filteredTasks];
+    if (sortStatus !== "") {
+      sortedTasks.sort((a, b) => (sortStatus === "active" ? a.completed - b.completed : b.completed - a.completed));
+    }
+    return sortedTasks;
   };
 
   useEffect(() => {
-    setFilteredTasks(() => filter({ tasks, filterStatus }));
-  }, [filterStatus, tasks]);
+    setFilteredTasks(() => sort({ filteredTasks: filter({ tasks, filterStatus, filterLabel }), sortStatus }));
+  }, [filterStatus, filterLabel, sortStatus, tasks]);
+
+  useEffect(() => {
+    setFilteredTasks(filter({ tasks, filterStatus, filterLabel }));
+  }, [tasks]);
 
   return (
     <div className="App">
+      <h1>Todo app for presentation</h1>
       <div className="filter__container">
         <div className="filter">
-          {["completed", "active", "all"].map((value) => (
-            <label key={value}>
-              {value}
-              <input
-                type="radio"
-                name="status"
-                value={value}
-                checked={value === filterStatus}
-                onChange={handleFilterStatus}
-              />
-            </label>
-          ))}
+          <h2>Filter</h2>
+          <label>
+            Status
+            <select onChange={(e) => setFilterStatus(e.target.value)} data-testid="filterByStatus">
+              {["all", "active", "completed"].map((value) => (
+                <option value={value}>{value.replace(/^\w/, (c) => c.toUpperCase())}</option>
+              ))}
+            </select>
+          </label>
+          <label>
+            by label : <input type="text" value={filterLabel} onChange={(e) => setFilterLabel(e.target.value)} />
+          </label>
+        </div>
+      </div>
+      <div className="sort__container">
+        <div className="sort">
+          <h2>Sort</h2>
+          <label>
+            Status
+            <select onChange={(e) => setSortStatus(e.target.value)}>
+              {["", "active", "completed"].map((value) => (
+                <option value={value}>
+                  {value !== "" ? `${value.replace(/^\w/, (c) => c.toUpperCase())} en premier` : "Par défaut"}
+                </option>
+              ))}
+            </select>
+          </label>
         </div>
       </div>
       <div className="task__container">
@@ -59,17 +84,8 @@ const App = () => {
               }}
             >
               {task.label}{" "}
-              <span
-                className={
-                  "status-icon " +
-                  (task.completed ? "status-icon--completed" : "")
-                }
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 96 96"
-                  role="img"
-                >
+              <span className={"status-icon " + (task.completed ? "status-icon--completed" : "")}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img">
                   <title>{task.completed ? "Completed" : "Active"}</title>
                   <path d="M1 1v94h94V1H1zM91.1 91.1H4.9V4.9h86.1V91.1z" />
                   <path
@@ -83,14 +99,14 @@ const App = () => {
           ))}
         </ul>
       </div>
-      <label>
-        Add
-        <input
-          type="text"
-          value={newTodo}
-          onChange={(e) => setNewTodo(e.target.value)}
-        />
-      </label>
+      <div>
+        <h2>Add task</h2>
+        <label>
+          {" "}
+          Add
+          <input type="text" value={newTodo} onChange={(e) => setNewTodo(e.target.value)} />
+        </label>
+      </div>
       <button
         type="button"
         onClick={() => {
