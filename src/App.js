@@ -78,7 +78,11 @@ const App = () => {
               onClick={() => {
                 setTasks((prev) => {
                   const newTasks = [...JSON.parse(JSON.stringify(prev))];
-                  newTasks[i].completed = !newTasks[i].completed;
+                  newTasks.forEach((newTask, index) => {
+                    if (newTask.id === task.id) {
+                      newTasks[index].completed = !newTasks[index].completed;
+                    }
+                  });
                   return newTasks;
                 });
               }}
