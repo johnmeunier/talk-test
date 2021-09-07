@@ -37,96 +37,112 @@ const App = () => {
 
   return (
     <div className="App">
-      <h1>Todo app for presentation</h1>
-      <div className="filter__container">
-        <div className="filter">
-          <h2>Filter</h2>
-          <label>
-            Status
-            <select onChange={(e) => setFilterStatus(e.target.value)} data-testid="filterByStatus">
-              {["all", "active", "completed"].map((value) => (
-                <option value={value}>{value.replace(/^\w/, (c) => c.toUpperCase())}</option>
-              ))}
-            </select>
-          </label>
-          <label>
-            by label : <input type="text" value={filterLabel} onChange={(e) => setFilterLabel(e.target.value)} />
-          </label>
+      <div className="container">
+        <h1>Todo app for presentation</h1>
+        <div className="filter__container">
+          <div className="filter">
+            <h2>Filter</h2>
+            <div className="input-container">
+              <label>
+                by label :{" "}
+                <input
+                  type="text"
+                  className="input"
+                  value={filterLabel}
+                  onChange={(e) => setFilterLabel(e.target.value)}
+                />
+              </label>
+            </div>
+            <div className="input-container">
+              <label>
+                Status
+                <select onChange={(e) => setFilterStatus(e.target.value)} data-testid="filterByStatus">
+                  {["all", "active", "completed"].map((value) => (
+                    <option value={value}>{value.replace(/^\w/, (c) => c.toUpperCase())}</option>
+                  ))}
+                </select>
+              </label>
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="sort__container">
-        <div className="sort">
-          <h2>Sort</h2>
-          <label>
-            Status
-            <select onChange={(e) => setSortStatus(e.target.value)}>
-              {["", "active", "completed"].map((value) => (
-                <option value={value}>
-                  {value !== "" ? `${value.replace(/^\w/, (c) => c.toUpperCase())} en premier` : "Par défaut"}
-                </option>
-              ))}
-            </select>
-          </label>
+        <div className="sort__container">
+          <div className="sort">
+            <h2>Sort</h2>
+            <label>
+              Status
+              <select onChange={(e) => setSortStatus(e.target.value)}>
+                {["", "active", "completed"].map((value) => (
+                  <option value={value}>
+                    {value !== "" ? `${value.replace(/^\w/, (c) => c.toUpperCase())} en premier` : "Par défaut"}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
         </div>
-      </div>
-      <div className="task__container">
-        <ul>
-          {filteredTasks.map((task, i) => (
-            <li
-              className="task"
-              key={task.id}
-              onClick={() => {
-                setTasks((prev) => {
-                  const newTasks = [...JSON.parse(JSON.stringify(prev))];
-                  newTasks.forEach((newTask, index) => {
-                    if (newTask.id === task.id) {
-                      newTasks[index].completed = !newTasks[index].completed;
-                    }
+        <div className="task__container">
+          <ul>
+            {filteredTasks.map((task, i) => (
+              <li
+                className={`task ${task.completed ? "task--completed" : "task"}`}
+                key={task.id}
+                onClick={() => {
+                  setTasks((prev) => {
+                    const newTasks = [...JSON.parse(JSON.stringify(prev))];
+                    newTasks.forEach((newTask, index) => {
+                      if (newTask.id === task.id) {
+                        newTasks[index].completed = !newTasks[index].completed;
+                      }
+                    });
+                    return newTasks;
                   });
-                  return newTasks;
-                });
-              }}
-            >
-              {task.label}{" "}
-              <span className={"status-icon " + (task.completed ? "status-icon--completed" : "")}>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img">
-                  <title>{task.completed ? "Completed" : "Active"}</title>
-                  <path d="M1 1v94h94V1H1zM91.1 91.1H4.9V4.9h86.1V91.1z" />
-                  <path
-                    className="completed-check"
-                    fill="none"
-                    d="m 22.939024,46.886041 18.480655,18.0492 31.424305,-33.078215 v 0"
-                  />
-                </svg>
-              </span>
-            </li>
-          ))}
-        </ul>
+                }}
+              >
+                <span className="task-label">{task.label}</span>
+
+                <span className={"status-icon " + (task.completed ? "status-icon--completed" : "")}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img">
+                    <title>{task.completed ? "Completed" : "Active"}</title>
+                    {/* <path d="M1 1v94h94V1H1zM91.1 91.1H4.9V4.9h86.1V91.1z" /> */}
+                    <path
+                      className="completed-check"
+                      fill="none"
+                      d="m 22.939024,46.886041 18.480655,18.0492 31.424305,-33.078215 v 0"
+                    />
+                  </svg>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <label>
+            <h2>Add</h2>
+            <input
+              className="input input--emphasis"
+              type="text"
+              value={newTodo}
+              onChange={(e) => setNewTodo(e.target.value)}
+            />
+          </label>
+          <button
+            type="button"
+            onClick={() => {
+              setTasks((prev) => [
+                ...prev,
+                {
+                  id: prev.length + 1,
+                  label: newTodo,
+                  completed: false,
+                },
+              ]);
+              setNewTodo(() => "");
+            }}
+          >
+            +
+          </button>
+        </div>
       </div>
-      <div>
-        <h2>Add task</h2>
-        <label>
-          {" "}
-          Add
-          <input type="text" value={newTodo} onChange={(e) => setNewTodo(e.target.value)} />
-        </label>
-      </div>
-      <button
-        type="button"
-        onClick={() => {
-          setTasks((prev) => [
-            ...prev,
-            {
-              id: prev.length + 1,
-              label: newTodo,
-              completed: false,
-            },
-          ]);
-          setNewTodo(() => "");
-        }}
-      >
-        Add
-      </button>
     </div>
   );
 };

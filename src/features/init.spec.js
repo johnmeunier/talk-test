@@ -34,7 +34,7 @@ async function clickItem(itemName) {
 
 function addItem(text) {
   const input = screen.getByLabelText(/Add/i);
-  const button = screen.getByRole("button", { name: /Add/i });
+  const button = screen.getByRole("button", { name: /\+/i });
 
   userEvent.type(input, text);
   userEvent.click(button);
@@ -55,7 +55,7 @@ const whenIWriteInTheNewItem = (when) => {
 };
 const whenIAddMyNewItem = (when) => {
   when(/I add my new item/, () => {
-    const button = screen.getByRole("button", { name: /Add/i });
+    const button = screen.getByRole("button", { name: /\+/i });
     userEvent.click(button);
   });
 };

@@ -1,44 +1,46 @@
+:root {
+  --main: #ff6663;
+  --mainLite: #ffeff0;
+  --white: #fff;
+  --sizeInput: 1.4rem;
+}
+
+html,
+body {
+  height: 100%;
+  color: var(--mainLite);
+}
+
 .App {
+  background-color: var(--main);
+  position: absolute;
+  top: 0px; /* Header Height */
+  bottom: 0px; /* Footer Height */
+  width: 100%;
+}
+
+.container {
+  width: 90%;
+  margin: auto;
+  max-width: 800px;
+}
+
+h1,
+h2 {
+  text-transform: uppercase;
+}
+h1 {
   text-align: center;
+  font-size: 3rem;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+h2 {
+  font-size: 2rem;
 }
 
 .status-icon svg {
   width: 1em;
+  transform: translateY(3px);
 }
 
 .status-icon .completed-check {
@@ -53,4 +55,69 @@
 }
 .status-icon--completed .completed-check {
   stroke-dashoffset: 0;
+  transition-delay: 0.3s;
+}
+
+.input,
+select {
+  border: none;
+  background: none;
+  border-bottom: 3px solid var(--mainLite);
+  color: var(--mainLite);
+  font-size: var(--sizeInput);
+}
+
+select {
+  margin-left: 10px;
+}
+
+.input--emphasis {
+  font-size: var(--sizeInput);
+  width: 90%;
+}
+
+button {
+  border: 3px solid var(--mainLite);
+  font-size: var(--sizeInput);
+  background: none;
+  color: var(--mainLite);
+}
+
+label {
+  font-size: var(--sizeInput);
+}
+
+ul {
+  list-style: none;
+  padding: 0px;
+}
+
+.task {
+  background-color: var(--mainLite);
+  color: var(--main);
+  font-size: 1.4rem;
+  text-align: center;
+  margin-bottom: 10px;
+  padding: 5px 10px;
+}
+
+.task-label {
+  position: relative;
+}
+
+.task-label:after {
+  content: "";
+  width: 0;
+  height: 2px;
+  background-color: var(--main);
+  position: absolute;
+  bottom: calc(50% - 1px);
+  left: 0px;
+  transition: width 0.3s ease-in-out;
+  transition-delay: 0.3s;
+}
+
+.task--completed .task-label:after {
+  width: 100%;
+  transition: width 0.3s ease-in-out;
 }
