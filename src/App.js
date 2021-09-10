@@ -11,10 +11,14 @@ const App = () => {
 
   const filter = ({ tasks, filterStatus, filterLabel }) => {
     let filteredTasks = [...tasks];
-    if (filterStatus === "completed") filteredTasks = filteredTasks.filter(({ completed }) => completed);
-    if (filterStatus === "active") filteredTasks = filteredTasks.filter(({ completed }) => !completed);
+    if (filterStatus === "completed")
+      filteredTasks = filteredTasks.filter(({ completed }) => completed);
+    if (filterStatus === "active")
+      filteredTasks = filteredTasks.filter(({ completed }) => !completed);
     if (filterLabel !== "") {
-      filteredTasks = filteredTasks.filter(({ label }) => label.toLowerCase().includes(filterLabel.toLowerCase()));
+      filteredTasks = filteredTasks.filter(({ label }) =>
+        label.toLowerCase().includes(filterLabel.toLowerCase())
+      );
     }
     return filteredTasks;
   };
@@ -22,13 +26,22 @@ const App = () => {
   const sort = ({ filteredTasks, sortStatus }) => {
     let sortedTasks = [...filteredTasks];
     if (sortStatus !== "") {
-      sortedTasks.sort((a, b) => (sortStatus === "active" ? a.completed - b.completed : b.completed - a.completed));
+      sortedTasks.sort((a, b) =>
+        sortStatus === "active"
+          ? a.completed - b.completed
+          : b.completed - a.completed
+      );
     }
     return sortedTasks;
   };
 
   useEffect(() => {
-    setFilteredTasks(() => sort({ filteredTasks: filter({ tasks, filterStatus, filterLabel }), sortStatus }));
+    setFilteredTasks(() =>
+      sort({
+        filteredTasks: filter({ tasks, filterStatus, filterLabel }),
+        sortStatus,
+      })
+    );
   }, [filterStatus, filterLabel, sortStatus, tasks]);
 
   useEffect(() => {
@@ -56,9 +69,14 @@ const App = () => {
             <div className="input-container">
               <label>
                 Status
-                <select onChange={(e) => setFilterStatus(e.target.value)} data-testid="filterByStatus">
+                <select
+                  onChange={(e) => setFilterStatus(e.target.value)}
+                  data-testid="filterByStatus"
+                >
                   {["all", "active", "completed"].map((value) => (
-                    <option value={value}>{value.replace(/^\w/, (c) => c.toUpperCase())}</option>
+                    <option value={value}>
+                      {value.replace(/^\w/, (c) => c.toUpperCase())}
+                    </option>
                   ))}
                 </select>
               </label>
@@ -73,7 +91,11 @@ const App = () => {
               <select onChange={(e) => setSortStatus(e.target.value)}>
                 {["", "active", "completed"].map((value) => (
                   <option value={value}>
-                    {value !== "" ? `${value.replace(/^\w/, (c) => c.toUpperCase())} en premier` : "Par défaut"}
+                    {value !== ""
+                      ? `${value.replace(/^\w/, (c) =>
+                          c.toUpperCase()
+                        )} en premier`
+                      : "Par défaut"}
                   </option>
                 ))}
               </select>
@@ -84,7 +106,9 @@ const App = () => {
           <ul>
             {filteredTasks.map((task, i) => (
               <li
-                className={`task ${task.completed ? "task--completed" : "task"}`}
+                className={`task ${
+                  task.completed ? "task--completed" : "task"
+                }`}
                 key={task.id}
                 onClick={() => {
                   setTasks((prev) => {
@@ -100,8 +124,17 @@ const App = () => {
               >
                 <span className="task-label">{task.label}</span>
 
-                <span className={"status-icon " + (task.completed ? "status-icon--completed" : "")}>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img">
+                <span
+                  className={
+                    "status-icon " +
+                    (task.completed ? "status-icon--completed" : "")
+                  }
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 96 96"
+                    role="img"
+                  >
                     <title>{task.completed ? "Completed" : "Active"}</title>
                     {/* <path d="M1 1v94h94V1H1zM91.1 91.1H4.9V4.9h86.1V91.1z" /> */}
                     <path
@@ -115,7 +148,20 @@ const App = () => {
             ))}
           </ul>
         </div>
-        <div>
+        <form
+          onSubmit={(e) => {
+            setTasks((prev) => [
+              ...prev,
+              {
+                id: prev.length + 1,
+                label: newTodo,
+                completed: false,
+              },
+            ]);
+            setNewTodo(() => "");
+            e.preventDefault();
+          }}
+        >
           <label>
             <h2>Add</h2>
             <input
@@ -125,23 +171,8 @@ const App = () => {
               onChange={(e) => setNewTodo(e.target.value)}
             />
           </label>
-          <button
-            type="button"
-            onClick={() => {
-              setTasks((prev) => [
-                ...prev,
-                {
-                  id: prev.length + 1,
-                  label: newTodo,
-                  completed: false,
-                },
-              ]);
-              setNewTodo(() => "");
-            }}
-          >
-            +
-          </button>
-        </div>
+          <button type="submit">+</button>
+        </form>
       </div>
     </div>
   );
