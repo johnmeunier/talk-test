@@ -74,7 +74,7 @@ const App = () => {
                   data-testid="filterByStatus"
                 >
                   {["all", "active", "completed"].map((value) => (
-                    <option value={value}>
+                    <option key={value} value={value}>
                       {value.replace(/^\w/, (c) => c.toUpperCase())}
                     </option>
                   ))}
@@ -90,7 +90,7 @@ const App = () => {
               Status
               <select onChange={(e) => setSortStatus(e.target.value)}>
                 {["", "active", "completed"].map((value) => (
-                  <option value={value}>
+                  <option key={value} value={value}>
                     {value !== ""
                       ? `${value.replace(/^\w/, (c) =>
                           c.toUpperCase()
