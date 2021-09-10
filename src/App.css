@@ -67,6 +67,14 @@ select {
   font-size: var(--sizeInput);
 }
 
+input:focus-visible {
+  outline: none;
+  box-shadow: inset;
+}
+
+option {
+  color: initial;
+}
 select {
   margin-left: 10px;
 }
@@ -111,7 +119,7 @@ ul {
   height: 2px;
   background-color: var(--main);
   position: absolute;
-  bottom: calc(50% - 1px);
+  bottom: calc(50% - 4px);
   left: 0px;
   transition: width 0.3s ease-in-out;
   transition-delay: 0.3s;
