@@ -73,11 +73,9 @@ const App = () => {
                   onChange={(e) => setFilterStatus(e.target.value)}
                   data-testid="filterByStatus"
                 >
-                  {["all", "active", "completed"].map((value) => (
-                    <option key={value} value={value}>
-                      {value.replace(/^\w/, (c) => c.toUpperCase())}
-                    </option>
-                  ))}
+                  <option value="all">All</option>
+                  <option value="active">Active</option>
+                  <option value="completed">Completed</option>
                 </select>
               </label>
             </div>
@@ -89,15 +87,9 @@ const App = () => {
             <label>
               Status
               <select onChange={(e) => setSortStatus(e.target.value)}>
-                {["", "active", "completed"].map((value) => (
-                  <option key={value} value={value}>
-                    {value !== ""
-                      ? `${value.replace(/^\w/, (c) =>
-                          c.toUpperCase()
-                        )} en premier`
-                      : "Par défaut"}
-                  </option>
-                ))}
+                <option value="">Default</option>
+                <option value="active">Active items first</option>
+                <option value="completed">Completed items first</option>
               </select>
             </label>
           </div>
