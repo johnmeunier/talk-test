@@ -17,6 +17,7 @@
     "test:cypress": "npx cypress open",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:coverage": "react-scripts test --watchAll=false --coverage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -43,5 +44,12 @@
     "cypress": "^8.4.1",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6"
+  },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/src/index.js",
+      "<rootDir>/src/reportWebVitals.js"
+    ]
   }
 }

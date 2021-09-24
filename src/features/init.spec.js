@@ -8,7 +8,7 @@ const feature = loadFeature("./init.feature", {
   loadRelativePath: true,
 });
 
-function givenIHaveTheFollowingTasks(and) {
+export function givenIHaveTheFollowingTasks(and) {
   and(/I have the following tasks/, async (table) => {
     for (const { task, status } of table) {
       addItem(task);
@@ -27,9 +27,17 @@ function whenISelectTheFilter(when) {
 }
 
 async function clickItem(itemName) {
-  await waitFor(() => screen.getAllByRole("listitem").find((listitem) => listitem.textContent.includes(itemName)));
+  await waitFor(() =>
+    screen
+      .getAllByRole("listitem")
+      .find((listitem) => listitem.textContent.includes(itemName))
+  );
 
-  userEvent.click(screen.getAllByRole("listitem").find((listitem) => listitem.textContent.includes(itemName)));
+  userEvent.click(
+    screen
+      .getAllByRole("listitem")
+      .find((listitem) => listitem.textContent.includes(itemName))
+  );
 }
 
 function addItem(text) {
@@ -40,7 +48,7 @@ function addItem(text) {
   userEvent.click(button);
 }
 
-const givenIAmOnTheTodoApp = (given) => {
+export const givenIAmOnTheTodoApp = (given) => {
   given("I am on the todo app", () => {
     render(<App />);
   });
@@ -75,7 +83,11 @@ const whenIClickOnTheItem = (when) => {
 const thenMyTodolistHasTheItems = (then) => {
   then(/My Todo-list has the items :/, async (table) => {
     const expectedItems = table.map((r) => r.items);
-    await waitFor(() => expect(screen.getAllByRole("listitem")[expectedItems.length - 1]).toBeInTheDocument());
+    await waitFor(() =>
+      expect(
+        screen.getAllByRole("listitem")[expectedItems.length - 1]
+      ).toBeInTheDocument()
+    );
     const items = screen.getAllByRole("listitem");
 
     expectedItems.forEach((item, index) => {
@@ -87,10 +99,14 @@ const thenMyTodolistHasTheItems = (then) => {
 const thenTheItemIs = (then) => {
   then(/The item '(.*)' is (active|completed)/, async (itemName, status) => {
     const item = await waitFor(() =>
-      screen.getAllByRole("listitem").find((listitem) => listitem.textContent.includes(itemName))
+      screen
+        .getAllByRole("listitem")
+        .find((listitem) => listitem.textContent.includes(itemName))
     );
 
-    expect(getByRole(item, "img", { name: new RegExp(status, "i"), exact: false })).toBeInTheDocument();
+    expect(
+      getByRole(item, "img", { name: new RegExp(status, "i"), exact: false })
+    ).toBeInTheDocument();
   });
 };
 
@@ -140,20 +156,35 @@ defineFeature(feature, (test) => {
     thenTheItemIs(then);
   });
 
-  test("Filter completed only shows completed tasks", ({ given, when, and, then }) => {
+  test("Filter completed only shows completed tasks", ({
+    given,
+    when,
+    and,
+    then,
+  }) => {
     givenIAmOnTheTodoApp(given);
     givenIHaveTheFollowingTasks(and);
     whenISelectTheFilter(when);
     thenMyTodolistHasTheItems(then);
   });
-  test("Filter active only shows active tasks", ({ given, when, and, then }) => {
+  test("Filter active only shows active tasks", ({
+    given,
+    when,
+    and,
+    then,
+  }) => {
     givenIAmOnTheTodoApp(given);
     givenIHaveTheFollowingTasks(and);
     whenISelectTheFilter(when);
     thenMyTodolistHasTheItems(then);
   });
 
-  test("Toggle twice then filter all shows all tasks", ({ given, when, and, then }) => {
+  test("Toggle twice then filter all shows all tasks", ({
+    given,
+    when,
+    and,
+    then,
+  }) => {
     givenIAmOnTheTodoApp(given);
     givenIHaveTheFollowingTasks(and);
     whenISelectTheFilter(when);
