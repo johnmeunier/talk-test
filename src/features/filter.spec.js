@@ -11,6 +11,8 @@ import {
   givenIAmOnTheTodoApp,
   givenIHaveTheFollowingTasks,
   thenMyTodolistHasTheItems,
+  whenIClickOnTheItem,
+  thenTheItemIs,
 } from "./init.spec";
 
 const feature = loadFeature("./filter.feature", {
@@ -70,5 +72,26 @@ defineFeature(feature, (test) => {
       userEvent.selectOptions(filter, within(filter).getByText(filterStatus));
     });
     thenMyTodolistHasTheItems(then);
+  });
+
+  test("Status change when filtered", ({ given, when, then, and }) => {
+    givenIAmOnTheTodoApp(given);
+    givenIHaveTheFollowingTasks(and);
+    when(/I filter by (.*)/, (filterStatus) => {
+      const section = screen.getByRole("heading", { name: /filter/i })
+        .parentNode;
+      const filter = within(section).getByRole("combobox", { name: /status/i });
+
+      userEvent.selectOptions(filter, within(filter).getByText(filterStatus));
+    });
+    whenIClickOnTheItem(when);
+    when(/I filter by (.*)/, (filterStatus) => {
+      const section = screen.getByRole("heading", { name: /filter/i })
+        .parentNode;
+      const filter = within(section).getByRole("combobox", { name: /status/i });
+
+      userEvent.selectOptions(filter, within(filter).getByText(filterStatus));
+    });
+    thenTheItemIs(then);
   });
 });

@@ -74,7 +74,7 @@ const whenIAddTheItem = (when) => {
   });
 };
 
-const whenIClickOnTheItem = (when) => {
+export const whenIClickOnTheItem = (when) => {
   when(/I click on the item '(.*)'/, async (itemName) => {
     await clickItem(itemName);
   });
@@ -96,7 +96,7 @@ export const thenMyTodolistHasTheItems = (then) => {
   });
 };
 
-const thenTheItemIs = (then) => {
+export const thenTheItemIs = (then) => {
   then(/The item '(.*)' is (active|completed)/, async (itemName, status) => {
     const item = await waitFor(() =>
       screen
@@ -153,52 +153,6 @@ defineFeature(feature, (test) => {
     whenIClickOnTheItem(when);
     thenTheItemIs(then);
     thenTheItemIs(then);
-    thenTheItemIs(then);
-  });
-
-  test("Filter completed only shows completed tasks", ({
-    given,
-    when,
-    and,
-    then,
-  }) => {
-    givenIAmOnTheTodoApp(given);
-    givenIHaveTheFollowingTasks(and);
-    whenISelectTheFilter(when);
-    thenMyTodolistHasTheItems(then);
-  });
-  test("Filter active only shows active tasks", ({
-    given,
-    when,
-    and,
-    then,
-  }) => {
-    givenIAmOnTheTodoApp(given);
-    givenIHaveTheFollowingTasks(and);
-    whenISelectTheFilter(when);
-    thenMyTodolistHasTheItems(then);
-  });
-
-  test("Toggle twice then filter all shows all tasks", ({
-    given,
-    when,
-    and,
-    then,
-  }) => {
-    givenIAmOnTheTodoApp(given);
-    givenIHaveTheFollowingTasks(and);
-    whenISelectTheFilter(when);
-    whenISelectTheFilter(when);
-    whenISelectTheFilter(when);
-    thenMyTodolistHasTheItems(then);
-  });
-
-  test("Status change when filtered", ({ given, when, then, and }) => {
-    givenIAmOnTheTodoApp(given);
-    givenIHaveTheFollowingTasks(and);
-    whenISelectTheFilter(when);
-    whenIClickOnTheItem(when);
-    whenISelectTheFilter(when);
     thenTheItemIs(then);
   });
 });

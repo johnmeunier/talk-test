@@ -40,3 +40,18 @@ Feature: I should be able to filter my items
       | items              |
       | I am completed     |
       | I am completed too |
+
+
+  @bug
+  Scenario: Status change when filtered
+    Given I am on the todo app
+    And I have the following tasks
+      | task             | status    |
+      | task completed 1 | completed |
+      | task active 1    | active    |
+      | task active 2    | active    |
+      | task completed 2 | completed |
+    When I filter by Active
+    And I click on the item 'task active 1'
+    And I filter by All
+    Then The item 'task active 1' is completed

@@ -46,66 +46,6 @@ Feature: Todo list application
     And The item 'Pick-up the girls from school' is active
     But The item 'Kill some bugs' is completed
 
-  Scenario: Filter completed only shows completed tasks
-    Given I am on the todo app
-    And I have the following tasks
-      | task             | status    |
-      | task completed 1 | completed |
-      | task active 1    | active    |
-      | task active 2    | active    |
-      | task completed 2 | completed |
-    When I select the filter 'completed'
-    Then My Todo-list has the items :
-      | items            |
-      | task completed 1 |
-      | task completed 2 |
-
-
-  Scenario: Filter active only shows active tasks
-    Given I am on the todo app
-    And I have the following tasks
-      | task             | status    |
-      | task completed 1 | completed |
-      | task active 1    | active    |
-      | task active 2    | active    |
-      | task completed 2 | completed |
-    When I select the filter 'active'
-    Then My Todo-list has the items :
-      | items         |
-      | task active 1 |
-      | task active 2 |
-
-  Scenario: Toggle twice then filter all shows all tasks
-    Given I am on the todo app
-    And I have the following tasks
-      | task             | status    |
-      | task completed 1 | completed |
-      | task active 1    | active    |
-      | task active 2    | active    |
-      | task completed 2 | completed |
-    When I select the filter 'active'
-    And I select the filter 'completed'
-    And I select the filter 'all'
-    Then My Todo-list has the items :
-      | items            | status    |
-      | task completed 1 | completed |
-      | task active 1    | active    |
-      | task active 2    | active    |
-      | task completed 2 | completed |
-
-  @bug
-  Scenario: Status change when filtered
-    Given I am on the todo app
-    And I have the following tasks
-      | task             | status    |
-      | task completed 1 | completed |
-      | task active 1    | active    |
-      | task active 2    | active    |
-      | task completed 2 | completed |
-    When I select the filter 'active'
-    And I click on the item 'task active 1'
-    And I select the filter 'all'
-    Then The item 'task active 1' is completed
 
 
 
