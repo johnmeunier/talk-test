@@ -57,7 +57,7 @@ const App = () => {
             <h2>Filter</h2>
             <div className="input-container">
               <label>
-                by label :{" "}
+                by label :
                 <input
                   type="text"
                   className="input"

@@ -80,7 +80,7 @@ const whenIClickOnTheItem = (when) => {
   });
 };
 
-const thenMyTodolistHasTheItems = (then) => {
+export const thenMyTodolistHasTheItems = (then) => {
   then(/My Todo-list has the items :/, async (table) => {
     const expectedItems = table.map((r) => r.items);
     await waitFor(() =>

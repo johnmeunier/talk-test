@@ -7,7 +7,11 @@ import {
   within,
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { givenIAmOnTheTodoApp, givenIHaveTheFollowingTasks } from "./init.spec";
+import {
+  givenIAmOnTheTodoApp,
+  givenIHaveTheFollowingTasks,
+  thenMyTodolistHasTheItems,
+} from "./init.spec";
 
 const feature = loadFeature("./filter.feature", {
   loadRelativePath: true,
@@ -22,24 +26,17 @@ defineFeature(feature, (test) => {
   }) => {
     givenIAmOnTheTodoApp(given);
     givenIHaveTheFollowingTasks(and);
-    when(/I filter by "(.*)"/, (filterText) => {
-      const section = screen.getByRole("heading", { name: /sort/i }).parentNode;
-      const filter = within(section).getByRole("combobox", { name: /status/i });
+    when(/I filter by text "(.*)"/, (filterText) => {
+      const section = screen.getByRole("heading", { name: /filter/i })
+        .parentNode;
+      const filter = within(section).getByLabelText(/by label/i);
 
-      userEvent.selectOptions(filter, within(filter).getByText(filterText));
+      userEvent.type(filter, filterText);
     });
-    then(/My Todo-list has the items in order:/, (table) => {
-      const items = screen.getAllByRole("listitem");
-      for (const [item, index] of table.map((row, index) => [
-        row.items,
-        index,
-      ])) {
-        expect(items[index]).toHaveTextContent(item);
-      }
-    });
+    thenMyTodolistHasTheItems(then);
   });
 
-  test("The Active sort orders items by active first, then creation date", ({
+  test("I filter by status active and active items remain", ({
     given,
     when,
     then,
@@ -47,24 +44,17 @@ defineFeature(feature, (test) => {
   }) => {
     givenIAmOnTheTodoApp(given);
     givenIHaveTheFollowingTasks(and);
-    when(/I sort by "(.*)"/, (filterText) => {
-      const section = screen.getByRole("heading", { name: /sort/i }).parentNode;
+    when(/I filter by (.*)/, (filterStatus) => {
+      const section = screen.getByRole("heading", { name: /filter/i })
+        .parentNode;
       const filter = within(section).getByRole("combobox", { name: /status/i });
 
-      userEvent.selectOptions(filter, within(filter).getByText(filterText));
+      userEvent.selectOptions(filter, within(filter).getByText(filterStatus));
     });
-    then(/My Todo-list has the items in order:/, (table) => {
-      const items = screen.getAllByRole("listitem");
-      for (const [item, index] of table.map((row, index) => [
-        row.items,
-        index,
-      ])) {
-        expect(items[index]).toHaveTextContent(item);
-      }
-    });
+    thenMyTodolistHasTheItems(then);
   });
 
-  test("The Completed sort orders items by active first, then creation date", ({
+  test("I filter by status completed and completed items remain", ({
     given,
     when,
     then,
@@ -72,20 +62,13 @@ defineFeature(feature, (test) => {
   }) => {
     givenIAmOnTheTodoApp(given);
     givenIHaveTheFollowingTasks(and);
-    when(/I sort by "(.*)"/, (filterText) => {
-      const section = screen.getByRole("heading", { name: /sort/i }).parentNode;
+    when(/I filter by (.*)/, (filterStatus) => {
+      const section = screen.getByRole("heading", { name: /filter/i })
+        .parentNode;
       const filter = within(section).getByRole("combobox", { name: /status/i });
 
-      userEvent.selectOptions(filter, within(filter).getByText(filterText));
+      userEvent.selectOptions(filter, within(filter).getByText(filterStatus));
     });
-    then(/My Todo-list has the items in order:/, (table) => {
-      const items = screen.getAllByRole("listitem");
-      for (const [item, index] of table.map((row, index) => [
-        row.items,
-        index,
-      ])) {
-        expect(items[index]).toHaveTextContent(item);
-      }
-    });
+    thenMyTodolistHasTheItems(then);
   });
 });
