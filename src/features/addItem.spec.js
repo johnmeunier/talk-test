@@ -4,6 +4,9 @@ import { defineFeature, loadFeature } from "jest-cucumber";
 
 import App from "../App";
 
+describe("Adding items to the todo app", () => {
+  test("fake", () => { expect(true).toBe(true)});
+})
 
 
 
