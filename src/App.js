@@ -29,8 +29,9 @@ const App = () => {
     if (filterStatus === "active")
       filteredTasks = filteredTasks.filter(({ completed }) => !completed);
     if (filterLabel !== "") {
+      console.log(filterLabel);
       filteredTasks = filteredTasks.filter(({ label }) =>
-        label.toLowerCase().includes(filterLabel.toLowerCase())
+        label.toLowerCase().includes(filterLabel)
       );
     }
     return filteredTasks;
