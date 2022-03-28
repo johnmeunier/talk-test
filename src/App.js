@@ -29,10 +29,8 @@ const App = () => {
     if (filterStatus === "active")
       filteredTasks = filteredTasks.filter(({ completed }) => !completed);
     if (filterLabel !== "") {
-      console.log(filterLabel);
-      filteredTasks = filteredTasks.filter(({ label }) =>
-        label.toLowerCase().includes(filterLabel)
-      );
+      const regexp = new RegExp(filterLabel, "i");
+      filteredTasks = filteredTasks.filter(({ label }) => regexp.test(label));
     }
     return filteredTasks;
   };
