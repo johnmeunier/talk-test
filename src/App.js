@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Spinner from "./Spinner";
 import "./App.css";
 
 const App = () => {
@@ -8,6 +9,18 @@ const App = () => {
   const [filterStatus, setFilterStatus] = useState("all");
   const [filterLabel, setFilterLabel] = useState("");
   const [sortStatus, setSortStatus] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    setIsLoading(true);
+    fetch("/items")
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        setIsLoading(false);
+        setTasks(response.items);
+      });
+  }, []);
 
   const filter = ({ tasks, filterStatus, filterLabel }) => {
     let filteredTasks = [...tasks];
@@ -94,52 +107,13 @@ const App = () => {
             </label>
           </div>
         </div>
-        <div className="task__container">
-          <ul>
-            {filteredTasks.map((task, i) => (
-              <li
-                className={`task ${
-                  task.completed ? "task--completed" : "task"
-                }`}
-                key={task.id}
-                onClick={() => {
-                  setTasks((prev) => {
-                    const newTasks = [...JSON.parse(JSON.stringify(prev))];
-                    newTasks.forEach((newTask, index) => {
-                      if (newTask.id === task.id) {
-                        newTasks[index].completed = !newTasks[index].completed;
-                      }
-                    });
-                    return newTasks;
-                  });
-                }}
-              >
-                <span className="task-label">{task.label}</span>
 
-                <span
-                  className={
-                    "status-icon " +
-                    (task.completed ? "status-icon--completed" : "")
-                  }
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 96 96"
-                    role="img"
-                  >
-                    <title>{task.completed ? "Completed" : "Active"}</title>
-                    {/* <path d="M1 1v94h94V1H1zM91.1 91.1H4.9V4.9h86.1V91.1z" /> */}
-                    <path
-                      className="completed-check"
-                      fill="none"
-                      d="m 22.939024,46.886041 18.480655,18.0492 31.424305,-33.078215 v 0"
-                    />
-                  </svg>
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <Items setTasks={setTasks} filteredTasks={filteredTasks} />
+        )}
+
         <form
           onSubmit={(e) => {
             setTasks((prev) => [
@@ -170,4 +144,52 @@ const App = () => {
   );
 };
 
+const Items = ({ filteredTasks, setTasks }) => {
+  return (
+    <div className="task__container">
+      <ul>
+        {filteredTasks.map((task, i) => (
+          <li
+            className={`task ${task.completed ? "task--completed" : "task"}`}
+            key={task.id}
+            onClick={() => {
+              setTasks((prev) => {
+                const newTasks = [...JSON.parse(JSON.stringify(prev))];
+                newTasks.forEach((newTask, index) => {
+                  if (newTask.id === task.id) {
+                    newTasks[index].completed = !newTasks[index].completed;
+                  }
+                });
+                return newTasks;
+              });
+            }}
+          >
+            <span className="task-label">{task.label}</span>
+
+            <span
+              className={
+                "status-icon " +
+                (task.completed ? "status-icon--completed" : "")
+              }
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 96 96"
+                role="img"
+              >
+                <title>{task.completed ? "Completed" : "Active"}</title>
+                {/* <path d="M1 1v94h94V1H1zM91.1 91.1H4.9V4.9h86.1V91.1z" /> */}
+                <path
+                  className="completed-check"
+                  fill="none"
+                  d="m 22.939024,46.886041 18.480655,18.0492 31.424305,-33.078215 v 0"
+                />
+              </svg>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 export default App;

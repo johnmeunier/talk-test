@@ -1,16 +1,16 @@
 {
   "name": "talk-test",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^12.1.4",
     "jest-cucumber": "^3.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3",
+    "react-scripts": "5.0.0",
     "react-test-renderer": "^17.0.2",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -18,7 +18,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:coverage": "react-scripts test --watchAll=false --coverage",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "livedoc": "livingdoc feature-folder --title \"demo pour devoxx\" --project-name \"todo app\" --output livedoc.html .\\src\\features"
   },
   "eslintConfig": {
     "extends": [
@@ -39,17 +40,22 @@
     ]
   },
   "devDependencies": {
-    "@testing-library/dom": "^8.1.0",
-    "@testing-library/user-event": "^13.1.9",
+    "@testing-library/dom": "^8.11.4",
+    "@testing-library/user-event": "^13.5.0",
     "cypress": "^8.4.1",
     "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.6"
+    "enzyme-adapter-react-16": "^1.15.6",
+    "msw": "^0.39.2"
   },
   "jest": {
     "coveragePathIgnorePatterns": [
       "<rootDir>/node_modules/",
       "<rootDir>/src/index.js",
-      "<rootDir>/src/reportWebVitals.js"
+      "<rootDir>/src/reportWebVitals.js",
+      "<rootDir>/src/mocks/"
     ]
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }

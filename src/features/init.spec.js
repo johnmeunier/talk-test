@@ -1,8 +1,16 @@
 import { defineFeature, loadFeature } from "jest-cucumber";
-import { getByRole, render, screen, waitFor } from "@testing-library/react";
+import {
+  getByRole,
+  render,
+  screen,
+  waitFor,
+  waitForElementToBeRemoved,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { rest } from "msw";
 
 import App from "../App";
+import { server } from "../mocks/server";
 
 const feature = loadFeature("./init.feature", {
   loadRelativePath: true,
@@ -49,8 +57,9 @@ function addItem(text) {
 }
 
 export const givenIAmOnTheTodoApp = (given) => {
-  given("I am on the todo app", () => {
+  given("I am on the todo app", async () => {
     render(<App />);
+    await waitForElementToBeRemoved(() => screen.getByTitle("loading"));
   });
 };
 
@@ -151,6 +160,29 @@ defineFeature(feature, (test) => {
     whenIClickOnTheItem(when);
     whenIClickOnTheItem(when);
     whenIClickOnTheItem(when);
+    thenTheItemIs(then);
+    thenTheItemIs(then);
+    thenTheItemIs(then);
+  });
+
+  test("Should retrieve my existing items", ({ given, when, and, then }) => {
+    given(/I have previously added the following items/, (table) => {
+      server.use(
+        rest.get("/items", (req, res, ctx) => {
+          return res(
+            ctx.delay(),
+            ctx.json({
+              items: table.map((row, index) => ({
+                id: index,
+                label: row.item,
+                completed: row.status === "completed",
+              })),
+            })
+          );
+        })
+      );
+    });
+    givenIAmOnTheTodoApp(given);
     thenTheItemIs(then);
     thenTheItemIs(then);
     thenTheItemIs(then);
