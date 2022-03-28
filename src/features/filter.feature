@@ -55,3 +55,13 @@ Feature: I should be able to filter my items
     And I click on the item 'task active 1'
     And I filter by All
     Then The item 'task active 1' is completed
+
+  Scenario: Filter is not case sensitive
+    Given I am on the todo app
+    And I have the following tasks
+      | task          | status    |
+      | Item number 1 | completed |
+    When I filter by text "ITEM"
+    Then My Todo-list has the items :
+      | items         |
+      | Item number 1 |
