@@ -56,12 +56,12 @@ Feature: I should be able to filter my items
     And I filter by All
     Then The item 'task active 1' is completed
 
-  Scenario: Filter is not case sensitive
+  Scenario: Filter should not be case sensitive
     Given I am on the todo app
     And I have the following tasks
-      | task          | status    |
-      | Item number 1 | completed |
+      | task   | status |
+      | Item 1 | active |
     When I filter by text "ITEM"
     Then My Todo-list has the items :
-      | items         |
-      | Item number 1 |
+      | items  |
+      | Item 1 |

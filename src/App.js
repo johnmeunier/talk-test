@@ -18,6 +18,7 @@ const App = () => {
       })
       .then((response) => {
         setIsLoading(false);
+
         setTasks(response.items);
       });
   }, []);
@@ -29,8 +30,8 @@ const App = () => {
     if (filterStatus === "active")
       filteredTasks = filteredTasks.filter(({ completed }) => !completed);
     if (filterLabel !== "") {
-      const regexp = new RegExp(filterLabel, "i");
-      filteredTasks = filteredTasks.filter(({ label }) => regexp.test(label));
+      const regex = new RegExp(filterLabel, "i");
+      filteredTasks = filteredTasks.filter(({ label }) => regex.test(label));
     }
     return filteredTasks;
   };

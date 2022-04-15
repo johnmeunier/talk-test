@@ -165,12 +165,11 @@ defineFeature(feature, (test) => {
     thenTheItemIs(then);
   });
 
-  test("Should retrieve my existing items", ({ given, when, and, then }) => {
+  test("Should retrieve my existing items", ({ given, when, then }) => {
     given(/I have previously added the following items/, (table) => {
       server.use(
         rest.get("/items", (req, res, ctx) => {
           return res(
-            ctx.delay(),
             ctx.json({
               items: table.map((row, index) => ({
                 id: index,
@@ -182,6 +181,7 @@ defineFeature(feature, (test) => {
         })
       );
     });
+
     givenIAmOnTheTodoApp(given);
     thenTheItemIs(then);
     thenTheItemIs(then);

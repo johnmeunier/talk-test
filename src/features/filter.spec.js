@@ -98,9 +98,9 @@ defineFeature(feature, (test) => {
     thenTheItemIs(then);
   });
 
-  test("Filter is not case sensitive", ({ given, when, then, and }) => {
+  test("Filter should not be case sensitive", ({ given, when, then }) => {
     givenIAmOnTheTodoApp(given);
-    givenIHaveTheFollowingTasks(and);
+    givenIHaveTheFollowingTasks(given);
     whenIFilterByText(when);
     thenMyTodolistHasTheItems(then);
   });
