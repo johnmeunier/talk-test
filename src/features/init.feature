@@ -46,16 +46,16 @@ Feature: Todo list application
     And The item 'Pick-up the girls from school' is active
     But The item 'Kill some bugs' is completed
 
-  Scenario: Should retrieve my existing items
-    Given I have previously added the following items
-      | item                          | status    |
-      | Pick-up the girls from school | completed |
-      | Kill some bugs                | active    |
-      | Groceries                     | active    |
-    And I am on the todo app
-    Then The item 'Pick-up the girls from school' is completed
-    But The item 'Kill some bugs' is active
-    And The item 'Groceries' is active
+# Scenario: Should retrieve my existing items
+#   Given I have previously added the following items
+#     | item                          | status    |
+#     | Pick-up the girls from school | completed |
+#     | Kill some bugs                | active    |
+#     | Groceries                     | active    |
+#   And I am on the todo app
+#   Then The item 'Pick-up the girls from school' is completed
+#   But The item 'Kill some bugs' is active
+#   And The item 'Groceries' is active
 
 
 

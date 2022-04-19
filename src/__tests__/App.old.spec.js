@@ -159,7 +159,7 @@ describe("App old way", () => {
         ...defaultProps,
         filteredTasks: [
           { id: 1, label: "first task", completed: false },
-          { id: 1, label: "first task", completed: true },
+          { id: 2, label: "first task", completed: true },
         ],
       };
       const tree = renderer.create(<View {...props} />).toJSON();

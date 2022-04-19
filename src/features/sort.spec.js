@@ -7,7 +7,10 @@ import {
   within,
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { givenIAmOnTheTodoApp, givenIHaveTheFollowingTasks } from "./init.spec";
+import {
+  givenIAmOnTheTodoApp,
+  givenIHaveTheFollowingTasks,
+} from "./helpers.steps";
 
 import App from "../App";
 

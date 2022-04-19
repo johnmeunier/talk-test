@@ -30,7 +30,7 @@ const App = () => {
     if (filterStatus === "active")
       filteredTasks = filteredTasks.filter(({ completed }) => !completed);
     if (filterLabel !== "") {
-      const regex = new RegExp(filterLabel, "i");
+      const regex = new RegExp(filterLabel);
       filteredTasks = filteredTasks.filter(({ label }) => regex.test(label));
     }
     return filteredTasks;

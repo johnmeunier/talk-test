@@ -4,90 +4,25 @@ import {
   render,
   screen,
   waitFor,
+  within,
   waitForElementToBeRemoved,
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { rest } from "msw";
 
+import {
+  givenIAmOnTheTodoApp,
+  whenIWriteInTheNewItem,
+  whenIAddMyNewItem,
+  whenIAddTheItem,
+  whenIClickOnTheItem,
+} from "./helpers.steps";
 import App from "../App";
 import { server } from "../mocks/server";
 
 const feature = loadFeature("./init.feature", {
   loadRelativePath: true,
 });
-
-export function givenIHaveTheFollowingTasks(and) {
-  and(/I have the following tasks/, async (table) => {
-    for (const { task, status } of table) {
-      addItem(task);
-      if (status === "completed") {
-        await clickItem(task);
-      }
-    }
-  });
-}
-
-function whenISelectTheFilter(when) {
-  when(/I select the filter '(.*)'/, (filter) => {
-    const $selectInput = screen.getByTestId("filterByStatus");
-    userEvent.selectOptions($selectInput, filter);
-  });
-}
-
-async function clickItem(itemName) {
-  await waitFor(() =>
-    screen
-      .getAllByRole("listitem")
-      .find((listitem) => listitem.textContent.includes(itemName))
-  );
-
-  userEvent.click(
-    screen
-      .getAllByRole("listitem")
-      .find((listitem) => listitem.textContent.includes(itemName))
-  );
-}
-
-function addItem(text) {
-  const input = screen.getByLabelText(/Add/i);
-  const button = screen.getByRole("button", { name: /\+/i });
-
-  userEvent.type(input, text);
-  userEvent.click(button);
-}
-
-export const givenIAmOnTheTodoApp = (given) => {
-  given("I am on the todo app", async () => {
-    render(<App />);
-    await waitForElementToBeRemoved(() => screen.getByTitle("loading"));
-  });
-};
-
-const whenIWriteInTheNewItem = (when) => {
-  when(/I write '(.*)' in the new item/, (text) => {
-    const input = screen.getByLabelText(/Add/i);
-
-    userEvent.type(input, text);
-  });
-};
-const whenIAddMyNewItem = (when) => {
-  when(/I add my new item/, () => {
-    const button = screen.getByRole("button", { name: /\+/i });
-    userEvent.click(button);
-  });
-};
-
-const whenIAddTheItem = (when) => {
-  when(/I add the item '(.*)/, (text) => {
-    addItem(text);
-  });
-};
-
-export const whenIClickOnTheItem = (when) => {
-  when(/I click on the item '(.*)'/, async (itemName) => {
-    await clickItem(itemName);
-  });
-};
 
 export const thenMyTodolistHasTheItems = (then) => {
   then(/My Todo-list has the items :/, async (table) => {
@@ -164,27 +99,8 @@ defineFeature(feature, (test) => {
     thenTheItemIs(then);
     thenTheItemIs(then);
   });
+});
 
-  test("Should retrieve my existing items", ({ given, when, then }) => {
-    given(/I have previously added the following items/, (table) => {
-      server.use(
-        rest.get("/items", (req, res, ctx) => {
-          return res(
-            ctx.json({
-              items: table.map((row, index) => ({
-                id: index,
-                label: row.item,
-                completed: row.status === "completed",
-              })),
-            })
-          );
-        })
-      );
-    });
-
-    givenIAmOnTheTodoApp(given);
-    thenTheItemIs(then);
-    thenTheItemIs(then);
-    thenTheItemIs(then);
-  });
+describe("init", () => {
+  test("Should retrieve my existing items", async () => {});
 });

@@ -7,7 +7,7 @@ import {
   thenMyTodolistHasTheItems,
   thenTheItemIs,
   whenIClickOnTheItem,
-} from "./init.spec";
+} from "./helpers.steps";
 
 const feature = loadFeature("./filter.feature", {
   loadRelativePath: true,
@@ -96,12 +96,5 @@ defineFeature(feature, (test) => {
       userEvent.selectOptions(filter, within(filter).getByText(filterStatus));
     });
     thenTheItemIs(then);
-  });
-
-  test("Filter should not be case sensitive", ({ given, when, then }) => {
-    givenIAmOnTheTodoApp(given);
-    givenIHaveTheFollowingTasks(given);
-    whenIFilterByText(when);
-    thenMyTodolistHasTheItems(then);
   });
 });

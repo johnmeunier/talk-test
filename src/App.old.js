@@ -50,7 +50,7 @@ const Container = () => {
     <View
       filterStatus={filterStatus}
       handleFilterStatus={handleFilterStatus(setFilterStatus)}
-      filteredTasks={filteredTasks}
+      filteredTasks={[]}
       newTodo={newTodo}
       setNewTodo={setNewTodo}
       toggleStatus={toggleStatus(setTasks)}
