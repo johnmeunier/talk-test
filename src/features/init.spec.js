@@ -102,8 +102,29 @@ defineFeature(feature, (test) => {
     thenTheItemIs(then);
     thenTheItemIs(then);
   });
-});
 
-describe("init", () => {
-  test("Should retrieve my existing items", async () => {});
+  test("Should retrieve my existing items", ({ given, when, then, and }) => {
+    given(/I have previously added the following items/, (table) => {
+      server.use(
+        rest.get("/items", (req, res, ctx) => {
+          return res(
+            ctx.status(200),
+            ctx.json({
+              items: table.map((e, i) => ({
+                id: i,
+                label: e.item,
+                completed: e.status === "completed",
+              })),
+            })
+          );
+        })
+      );
+    });
+
+    givenIAmOnTheTodoApp(and);
+
+    thenTheItemIs(then);
+    thenTheItemIs(then);
+    thenTheItemIs(then);
+  });
 });

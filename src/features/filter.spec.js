@@ -109,4 +109,11 @@ defineFeature(feature, (test) => {
     });
     thenTheItemIs(then);
   });
+
+  test("Filter should not be case sensitive", ({ given, when, then, and }) => {
+    givenIAmOnTheTodoApp(given);
+    givenIHaveTheFollowingTasks(and);
+    whenIFilterByText(when);
+    thenMyTodolistHasTheItems(then);
+  });
 });
