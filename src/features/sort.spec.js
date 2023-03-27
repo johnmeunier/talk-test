@@ -1,18 +1,10 @@
 import { defineFeature, loadFeature } from "jest-cucumber";
-import {
-  getByRole,
-  render,
-  screen,
-  waitFor,
-  within,
-} from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
   givenIAmOnTheTodoApp,
   givenIHaveTheFollowingTasks,
 } from "./helpers.steps";
-
-import App from "../App";
 
 const feature = loadFeature("./sort.feature", {
   loadRelativePath: true,
@@ -27,11 +19,14 @@ defineFeature(feature, (test) => {
   }) => {
     givenIAmOnTheTodoApp(given);
     givenIHaveTheFollowingTasks(and);
-    when(/I sort by "(.*)"/, (filterText) => {
+    when(/I sort by "(.*)"/, async (filterText) => {
       const section = screen.getByRole("heading", { name: /sort/i }).parentNode;
       const filter = within(section).getByRole("combobox", { name: /status/i });
 
-      userEvent.selectOptions(filter, within(filter).getByText(filterText));
+      await userEvent.selectOptions(
+        filter,
+        within(filter).getByText(filterText)
+      );
     });
     then(/My Todo-list has the items in order:/, (table) => {
       const items = screen.getAllByRole("listitem");
@@ -52,11 +47,14 @@ defineFeature(feature, (test) => {
   }) => {
     givenIAmOnTheTodoApp(given);
     givenIHaveTheFollowingTasks(and);
-    when(/I sort by "(.*)"/, (filterText) => {
+    when(/I sort by "(.*)"/, async (filterText) => {
       const section = screen.getByRole("heading", { name: /sort/i }).parentNode;
       const filter = within(section).getByRole("combobox", { name: /status/i });
 
-      userEvent.selectOptions(filter, within(filter).getByText(filterText));
+      await userEvent.selectOptions(
+        filter,
+        within(filter).getByText(filterText)
+      );
     });
     then(/My Todo-list has the items in order:/, (table) => {
       const items = screen.getAllByRole("listitem");
@@ -77,11 +75,14 @@ defineFeature(feature, (test) => {
   }) => {
     givenIAmOnTheTodoApp(given);
     givenIHaveTheFollowingTasks(and);
-    when(/I sort by "(.*)"/, (filterText) => {
+    when(/I sort by "(.*)"/, async (filterText) => {
       const section = screen.getByRole("heading", { name: /sort/i }).parentNode;
       const filter = within(section).getByRole("combobox", { name: /status/i });
 
-      userEvent.selectOptions(filter, within(filter).getByText(filterText));
+      await userEvent.selectOptions(
+        filter,
+        within(filter).getByText(filterText)
+      );
     });
     then(/My Todo-list has the items in order:/, (table) => {
       const items = screen.getAllByRole("listitem");

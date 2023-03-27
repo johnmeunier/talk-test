@@ -16,25 +16,25 @@ async function clickItem(itemName) {
       .find((listitem) => listitem.textContent.includes(itemName))
   );
 
-  userEvent.click(
+  await userEvent.click(
     screen
       .getAllByRole("listitem")
       .find((listitem) => listitem.textContent.includes(itemName))
   );
 }
 
-function addItem(text) {
+async function addItem(text) {
   const input = screen.getByLabelText(/Add/i);
   const button = screen.getByRole("button", { name: /\+/i });
 
-  userEvent.type(input, text);
-  userEvent.click(button);
+  await userEvent.type(input, text);
+  await userEvent.click(button);
 }
 
 export function givenIHaveTheFollowingTasks(and) {
   and(/I have the following tasks/, async (table) => {
     for (const { task, status } of table) {
-      addItem(task);
+      await addItem(task);
       if (status === "completed") {
         await clickItem(task);
       }
@@ -55,22 +55,22 @@ export const whenIClickOnTheItem = (when) => {
 };
 
 export const whenIWriteInTheNewItem = (when) => {
-  when(/I write '(.*)' in the new item/, (text) => {
+  when(/I write '(.*)' in the new item/, async (text) => {
     const input = screen.getByLabelText(/Add/i);
 
-    userEvent.type(input, text);
+    await userEvent.type(input, text);
   });
 };
 export const whenIAddMyNewItem = (when) => {
-  when(/I add my new item/, () => {
+  when(/I add my new item/, async () => {
     const button = screen.getByRole("button", { name: /\+/i });
-    userEvent.click(button);
+    await userEvent.click(button);
   });
 };
 
 export const whenIAddTheItem = (when) => {
-  when(/I add the item '(.*)/, (text) => {
-    addItem(text);
+  when(/I add the item '(.*)/, async (text) => {
+    await addItem(text);
   });
 };
 

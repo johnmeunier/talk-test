@@ -14,13 +14,13 @@ const feature = loadFeature("./filter.feature", {
 });
 
 function whenIFilterByText(when) {
-  when(/I filter by text "(.*)"/, (filterText) => {
+  when(/I filter by text "(.*)"/, async (filterText) => {
     const section = screen.getByRole("heading", {
       name: /filter/i,
     }).parentNode;
     const filter = within(section).getByLabelText(/by label/i);
 
-    userEvent.type(filter, filterText);
+    await userEvent.type(filter, filterText);
   });
 }
 
@@ -45,13 +45,16 @@ defineFeature(feature, (test) => {
   }) => {
     givenIAmOnTheTodoApp(given);
     givenIHaveTheFollowingTasks(and);
-    when(/I filter by (.*)/, (filterStatus) => {
+    when(/I filter by (.*)/, async (filterStatus) => {
       const section = screen.getByRole("heading", {
         name: /filter/i,
       }).parentNode;
       const filter = within(section).getByRole("combobox", { name: /status/i });
 
-      userEvent.selectOptions(filter, within(filter).getByText(filterStatus));
+      await userEvent.selectOptions(
+        filter,
+        within(filter).getByText(filterStatus)
+      );
     });
     thenMyTodolistHasTheItems(then);
   });
@@ -64,13 +67,16 @@ defineFeature(feature, (test) => {
   }) => {
     givenIAmOnTheTodoApp(given);
     givenIHaveTheFollowingTasks(and);
-    when(/I filter by (.*)/, (filterStatus) => {
+    when(/I filter by (.*)/, async (filterStatus) => {
       const section = screen.getByRole("heading", {
         name: /filter/i,
       }).parentNode;
       const filter = within(section).getByRole("combobox", { name: /status/i });
 
-      userEvent.selectOptions(filter, within(filter).getByText(filterStatus));
+      await userEvent.selectOptions(
+        filter,
+        within(filter).getByText(filterStatus)
+      );
     });
     thenMyTodolistHasTheItems(then);
   });
@@ -78,22 +84,28 @@ defineFeature(feature, (test) => {
   test("Status change when filtered", ({ given, when, then, and }) => {
     givenIAmOnTheTodoApp(given);
     givenIHaveTheFollowingTasks(and);
-    when(/I filter by (.*)/, (filterStatus) => {
+    when(/I filter by (.*)/, async (filterStatus) => {
       const section = screen.getByRole("heading", {
         name: /filter/i,
       }).parentNode;
       const filter = within(section).getByRole("combobox", { name: /status/i });
 
-      userEvent.selectOptions(filter, within(filter).getByText(filterStatus));
+      await userEvent.selectOptions(
+        filter,
+        within(filter).getByText(filterStatus)
+      );
     });
     whenIClickOnTheItem(when);
-    when(/I filter by (.*)/, (filterStatus) => {
+    when(/I filter by (.*)/, async (filterStatus) => {
       const section = screen.getByRole("heading", {
         name: /filter/i,
       }).parentNode;
       const filter = within(section).getByRole("combobox", { name: /status/i });
 
-      userEvent.selectOptions(filter, within(filter).getByText(filterStatus));
+      await userEvent.selectOptions(
+        filter,
+        within(filter).getByText(filterStatus)
+      );
     });
     thenTheItemIs(then);
   });

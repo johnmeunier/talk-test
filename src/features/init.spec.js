@@ -49,7 +49,10 @@ export const thenTheItemIs = (then) => {
     );
 
     expect(
-      getByRole(item, "img", { name: new RegExp(status, "i"), exact: false })
+      within(item).getByRole("img", {
+        name: new RegExp(status, "i"),
+        exact: false,
+      })
     ).toBeInTheDocument();
   });
 };
